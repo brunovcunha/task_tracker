@@ -1,3 +1,4 @@
+import controller.TaskController;
 import model.Status;
 import model.Task;
 import service.TaskService;
@@ -19,7 +20,22 @@ public class Main {
 
         tasks.add(task);
         TaskService service = new TaskService();
+        TaskController controller = new TaskController();
 
-        service.createTask(tasks);
+//        service.createTask(tasks);
+
+        System.out.println("Vai listar....");
+        System.out.println(controller.allTasks());
+
+        System.out.println("Vai listar done tasks: ");
+        System.out.println(controller.doneTasks());
+
+        System.out.println("Vai listar not done tasks: ");
+        System.out.println(controller.notDoneTasks());
+
+        System.out.println("Vai listar in progress tasks: ");
+        System.out.println(controller.inProgressTasks());
+
+
     }
 }

@@ -72,4 +72,15 @@ public class Task {
                         this.id, this.description, this.status, this.createdAt, this.updatedAt
         );
     }
+
+    @Override
+    public String toString() {
+        return "Task{" +
+                "id=" + id +
+                ", description='" + description + '\'' +
+                ", status=" + status +
+                ", createdAt=" + createdAt +
+                ", updatedAt=" + updatedAt +
+                '}';
+    }
 }

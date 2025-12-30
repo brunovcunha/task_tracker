@@ -10,7 +10,7 @@
 {
     "id":2,
     "description":"teste",
-    "status":"DONE",
+    "status":"TODO",
     "createdAt": "2025-12-30T15:13:18.388386700",
     "updatedAt": "2025-12-30T15:13:18.389390"
 }
@@ -18,7 +18,7 @@
 {
     "id":3,
     "description":"teste",
-    "status":"DONE",
+    "status":"IN_PROGRESS",
     "createdAt": "2025-12-30T15:13:20.942411200",
     "updatedAt": "2025-12-30T15:13:20.943416800"
 }
@@ -26,7 +26,7 @@
 {
     "id":4,
     "description":"teste",
-    "status":"DONE",
+    "status":"IN_PROGRESS",
     "createdAt": "2025-12-30T15:13:23.614424600",
     "updatedAt": "2025-12-30T15:13:23.614424600"
 }
@@ -34,9 +34,25 @@
 {
     "id":5,
     "description":"teste",
-    "status":"DONE",
+    "status":"IN_PROGRESS",
     "createdAt": "2025-12-30T15:13:31.565250900",
     "updatedAt": "2025-12-30T15:13:31.565250900"
+}
+,
+{
+    "id":6,
+    "description":"teste",
+    "status":"DONE",
+    "createdAt": "2025-12-30T15:54:14.413834400",
+    "updatedAt": "2025-12-30T15:54:14.413834400"
+}
+,
+{
+    "id":7,
+    "description":"teste",
+    "status":"TODO",
+    "createdAt": "2025-12-30T15:54:39.746325600",
+    "updatedAt": "2025-12-30T15:54:39.746325600"
 }
 
 ]

@@ -13,8 +13,91 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicReferenceArray;
 
 public class TaskService {
+    private final Path path = Path.of("src/files/tasks.json");
+
+    public List<Task> listAllTasks() throws Exception {
+        List<Task> allTasks = new ArrayList<>();
+
+        if (Files.exists(path) && Files.size(path) > 0) {
+            String json = Files.readString(path, StandardCharsets.UTF_8);
+            allTasks.addAll(jsonToTasks(json));
+        }
+
+        if (allTasks.isEmpty()) {
+            throw new Exception("There are no records.");
+        }
+        return allTasks;
+    }
+
+    public List<Task> listDoneTasks() throws Exception {
+        List<Task> allTasks = new ArrayList<>();
+        List<Task> doneTasks = new ArrayList<>();
+
+        if (Files.exists(path) && Files.size(path) > 0) {
+            String json = Files.readString(path, StandardCharsets.UTF_8);
+            allTasks.addAll(jsonToTasks(json));
+        }
+
+        if (!allTasks.isEmpty()) {
+            for (Task task : allTasks) {
+                if (task.getStatus() == Status.DONE) {
+                    doneTasks.add(task);
+                }
+            }
+        }
+
+        if (doneTasks.isEmpty()) {
+            throw new Exception("There are no completed records.");
+        }
+        return doneTasks;
+    }
+
+    public List<Task> listNotDoneTasks() throws Exception {
+        List<Task> allTasks = new ArrayList<>();
+        List<Task> notDoneTasks = new ArrayList<>();
+
+        if (Files.exists(path) && Files.size(path) > 0) {
+            String json = Files.readString(path, StandardCharsets.UTF_8);
+            allTasks.addAll(jsonToTasks(json));
+        }
+
+        if (!allTasks.isEmpty()) {
+            for (Task task : allTasks) {
+                if (task.getStatus() != Status.DONE) {
+                    notDoneTasks.add(task);
+                }
+            }
+        }
+        if (notDoneTasks.isEmpty()) {
+            throw new Exception("There are no pending records.");
+        }
+        return notDoneTasks;
+    }
+
+    public List<Task> listInProgressTasks() throws Exception {
+        List<Task> allTasks = new ArrayList<>();
+        List<Task> inProgress = new ArrayList<>();
+        if (Files.exists(path) && Files.size(path) > 0) {
+            String json = Files.readString(path, StandardCharsets.UTF_8);
+            allTasks.addAll(jsonToTasks(json));
+        }
+
+        if (!allTasks.isEmpty()) {
+            for (Task task : allTasks) {
+                if (task.getStatus() == Status.IN_PROGRESS) {
+                    inProgress.add(task);
+                }
+            }
+        }
+
+        if (inProgress.isEmpty()) {
+            throw new Exception("There are no pending records.");
+        }
+        return inProgress;
+    }
+
+
     public void createTask(List<Task> tasks) throws IOException {
-        Path path = Path.of("src/files/tasks.json");
         Files.createDirectories(path.getParent());
 
         List<Task> allTasks = new ArrayList<>();
