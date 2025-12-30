@@ -36,6 +36,7 @@ public class Main {
         System.out.println("Vai listar in progress tasks: ");
         System.out.println(controller.inProgressTasks());
 
+        System.out.println("Vai deletar id 1: ");
 
     }
 }

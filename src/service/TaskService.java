@@ -15,6 +15,18 @@ import java.util.concurrent.atomic.AtomicReferenceArray;
 public class TaskService {
     private final Path path = Path.of("src/files/tasks.json");
 
+    public void deleteTaskById(Integer id) throws IOException {
+        List<Task> allTasks = new ArrayList<>();
+
+        if (Files.exists(path) && Files.size(path) > 0) {
+            String json = Files.readString(path, StandardCharsets.UTF_8);
+            allTasks.addAll(jsonToTasks(json));
+        }
+
+        allTasks.stream().filter(task -> task.getId().equals(id)).forEach(allTasks::remove);
+
+    }
+
     public List<Task> listAllTasks() throws Exception {
         List<Task> allTasks = new ArrayList<>();
 
