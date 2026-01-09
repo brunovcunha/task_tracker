@@ -3,12 +3,20 @@ package controller;
 import model.Task;
 import service.TaskService;
 
-import java.util.ArrayList;
+import java.io.IOException;
 import java.util.List;
 
 public class TaskController {
     final private TaskService service = new TaskService();
 
+    public Task findById(Integer id) {
+        try {
+            return service.findTaskById(id);
+        } catch (Exception e){
+            System.out.println(e.getMessage());
+            return null;
+        }
+    }
     public String allTasks() {
         StringBuilder sb = new StringBuilder();
 
@@ -22,7 +30,8 @@ public class TaskController {
             }
             return sb.toString();
         } catch (Exception e) {
-            return e.getMessage();
+            System.out.println(e.getMessage());
+            return null;
         }
     }
 
@@ -39,7 +48,8 @@ public class TaskController {
             }
             return sb.toString();
         } catch (Exception e) {
-            return e.getMessage();
+            System.out.println(e.getMessage());
+            return null;
         }
     }
 
@@ -56,7 +66,8 @@ public class TaskController {
             }
             return sb.toString();
         } catch (Exception e) {
-            return e.getMessage();
+            System.out.println(e.getMessage());
+            return null;
         }
     }
 
@@ -73,7 +84,36 @@ public class TaskController {
             }
             return sb.toString();
         } catch (Exception e) {
-            return e.getMessage();
+            System.out.println(e.getMessage());
+            return null;
         }
+    }
+
+    public void deleteTask(Integer id) {
+        try {
+            service.deleteTaskById(id);
+            System.out.println("DELETED TASK: " + id);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void updateTask(Task task) {
+        try {
+            service.updateTaskById(task);
+
+            System.out.println("task-cli update " + task.getId() + " " + task.getDescription() + " " + task.getStatus());
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void createTasks(List<Task> tasks) {
+        try {
+            service.createTask(tasks);
+        } catch (Exception e) {
+            System.out.println("Não foi possível cadastrar Task(s): " + e.getMessage());
+        }
+
     }
 }

@@ -10,21 +10,53 @@ import java.nio.file.Path;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReferenceArray;
 
 public class TaskService {
     private final Path path = Path.of("src/files/tasks.json");
 
-    public void deleteTaskById(Integer id) throws IOException {
-        List<Task> allTasks = new ArrayList<>();
+    public Task updateTaskById(Task updated) throws Exception {
+        List<Task> allTasks = listAllTasks();
 
-        if (Files.exists(path) && Files.size(path) > 0) {
-            String json = Files.readString(path, StandardCharsets.UTF_8);
-            allTasks.addAll(jsonToTasks(json));
+        Task existing = allTasks.stream()
+                .filter(t -> t.getId().equals(updated.getId()))
+                .findFirst()
+                .orElseThrow(() -> new Exception("Task not found!"));
+
+        if (existing.getStatus().equals(updated.getStatus()) &&
+                existing.getDescription().equals(updated.getDescription())) {
+            throw new Exception("There are no changes!");
         }
 
-        allTasks.stream().filter(task -> task.getId().equals(id)).forEach(allTasks::remove);
+        existing.setStatus(updated.getStatus());
+        existing.setDescription(updated.getDescription());
+        existing.setUpdatedAt(LocalDateTime.now());
 
+        Files.writeString(path, tasksToJson(allTasks), StandardCharsets.UTF_8);
+        return existing;
+    }
+
+    public void deleteTaskById(Integer id) throws Exception {
+        List<Task> allTasks = listAllTasks();
+
+        boolean removed = allTasks.removeIf(t -> t.getId().equals(id));
+
+        if (!removed) {
+            throw new Exception("Task not found!");
+        }
+
+        Files.writeString(path, tasksToJson(allTasks), StandardCharsets.UTF_8);
+    }
+
+
+    public Task findTaskById(Integer id) throws Exception {
+        List<Task> allTasks = listAllTasks();
+
+        return allTasks.stream()
+                .filter(t -> t.getId().equals(id))
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException("Task not found!"));
     }
 
     public List<Task> listAllTasks() throws Exception {
@@ -127,7 +159,9 @@ public class TaskService {
             task.setUpdatedAt(LocalDateTime.now());
             allTasks.add(task);
         }
+
         Files.writeString(path, tasksToJson(allTasks), StandardCharsets.UTF_8);
+
 
     }
 
